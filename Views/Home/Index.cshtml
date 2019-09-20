@@ -1,0 +1,99 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model IndexView
+
+<div class="row">
+    <div class="col">
+        <h1>Add Author</h1>
+        <form action="/authors" method="post">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" asp-for="Author.Name"></label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="Author.Name">
+                    <span class="text-danger" asp-validation-for="Author.Name"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10 offset-sm-2">
+                    <button class="btn btn-primary">Add Author</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col">
+        <h1>All Authors</h1>
+        <table class="table table-striped text-white">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{foreach(var author in Model.Authors)
+                    {
+                        <tr>
+                            <td>@author.Name</td>
+                            <td><a href="/authors/@author.AuthorId">View</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h1>Add Book</h1>
+        <form action="/books" method="post">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" asp-for="Book.Title"></label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="Book.Title">
+                    <span class="text-danger" asp-validation-for="Book.Title"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Book.AuthorId" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <select asp-for="Book.AuthorId" class="form-control">
+                        @{foreach(var author in Model.Authors)
+                            {
+                                <option value="@author.AuthorId">@author.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10 offset-sm-2">
+                    <button class="btn btn-primary">Add Book</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col">
+        <h1>All Books</h1>
+        <table class="table table-striped text-white">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{if(Model.Books != null){
+                    foreach(var book in Model.Books)
+                        {
+                            <tr>
+                                <td>@book.Title</td>
+                                <td>@book.Author.Name</td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
